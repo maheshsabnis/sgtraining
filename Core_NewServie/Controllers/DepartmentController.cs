@@ -72,6 +72,7 @@ namespace Core_NewServie.Controllers
             // Check for the Model Validations
             if (ModelState.IsValid)
             {
+                if (data.Capacity < 0) throw new Exception("Capacity cannot be -ve");
                 var result = await deptService.CreateDataAsync(data);
                 return Ok(result);
             }

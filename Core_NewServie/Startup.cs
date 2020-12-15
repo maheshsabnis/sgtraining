@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging;
 using Core_NewServie.Models;
 using Microsoft.EntityFrameworkCore;
 using Core_NewServie.Services;
-
+using Core_NewServie.CustomMiddleware;
 namespace Core_NewServie
 {
     public class Startup
@@ -54,8 +54,6 @@ namespace Core_NewServie
                 options.UseSqlServer(Configuration.GetConnectionString("CompanyConnection"));
             });
 
-
-
             // enable service for CORS
             services.AddCors(policy=> {
                 policy.AddPolicy("corspolicy", options =>
@@ -64,7 +62,6 @@ namespace Core_NewServie
                      
                 });
             });
-
 
             // register services in DI Container
             // IMPORTANT: Decide the Object Instantiation wisely
@@ -106,6 +103,10 @@ namespace Core_NewServie
             app.UseRouting();
 
             app.UseAuthorization();
+
+
+            // the custom middlewares
+            app.UseCustomException();
 
             app.UseEndpoints(endpoints =>
             {
